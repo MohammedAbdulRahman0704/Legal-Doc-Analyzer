@@ -114,4 +114,4 @@ if st.button("Run Analysis"):
 # Footer
 st.markdown("---")
 st.caption("IntelliDoc Legal Analyzer v2.0 | Powered by FastAPI + Streamlit _ Ollama LLaMA 2")
-st.markdown("© 2023 IntelliDoc. All rights reserved.")
+st.markdown("© 2025 IntelliDoc. All rights reserved.")
