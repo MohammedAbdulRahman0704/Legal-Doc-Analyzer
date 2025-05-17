@@ -1,7 +1,3 @@
-Sure! Here's the **updated `README.md`** including instructions to set up a **Python virtual environment (`venv`)** before running the backend and frontend:
-
----
-
 ```markdown
 # IntelliDoc Legal Analyzer API
 
