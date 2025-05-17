@@ -1,117 +1,79 @@
 import streamlit as st
 import requests
+import PyPDF2
+import base64
+import tempfile
 
-# Page Config
-st.set_page_config(
-    page_title="IntelliDoc: Legal Analyzer",
-    layout="wide",
-    initial_slidebar_state="expanded"
-)
+# Set page configuration
+st.set_page_config(page_title="IntelliDoc Legal Analyzer API", layout="centered")
 
-# Custom styles fo enterprise look
-st.markdown("""
-            <style>
-            body{
-                background-color: #f3f6fb;
-            }
-            .stTextArea textarea {
-                background-color: black;
-                border-radius: 10px;
-                font-size: 15px;
-                border: 1px solid #d1d5db;
-            }
-            .stButton > button {
-                background-color: #205081;
-                color: #ffffff;
-                border-radius: 6px;
-                padding: 8px 16px;
-                font-weight: bold;
-            }
-            .stButton > button:hover {
-                background-color: #153a5b;
-            }
-            .stFileUploader {
-                margin-top: 10px;
-            }
-            .reportview-container .main footer {visibility: hidden;}
-            </style>
-            """, unsafe_allow_html=True)
+# Sidebar instructions
+st.sidebar.title("How It Works")
+st.sidebar.write("""
+1. Upload a PDF or enter legal text manually.
+2. Click **Analyze** to process the document.
+3. View:
+   - Summary
+   - Key Clauses
+   - Named Entities
+""")
+st.sidebar.write("*Ensure FastAPI server is running on http://localhost:8000*")
 
-# Header
-st.sidebar.title("IntelliDoc: Legal Analyzer")
-st.markdown("Levrage LLaMA2 locally to summarize, extract clauses and identify entities from legal or policy content.")
+# Title and input
+st.title("IntelliDoc Legal Analyzer API")
+st.markdown("*Analyze legal documents using LLaMA2 via FastAPI.*")
 
-# Section toggles
-st.subheader("Select Extraction Options")
-col1, col2, col3 = st.columns(3)
-with col1:
-    do_summary = st.checkbox("Summarize", value=True)
-with col2:
-    do_clauses = st.checkbox("Extract Key Clauses", value=True)
-with col3:
-    do_entities = st.checkbox("Identify Named Entities", value=True)
+# File uploader
+uploaded_file = st.file_uploader("Upload a legal PDF file:", type="pdf")
+extracted_text = ""
 
-# Input selection
-st.subheader("Document Input")
-input_type = st.radio("Choose how you'd like to provide input:", ["Text Input", "Upload .txt File"])
-text_input = ""
+# Display PDF if uploaded
+if uploaded_file is not None:
+    st.subheader("Uploaded PDF Preview")
 
-if input_type == "Text Input":
-    text_input = st.text_area("Paste your legal document content below:", height=5000)
-else:
-    uploaded_file = st.file_uploader("Upload a .txt file", type=["txt"])
-    if uploaded_file is not None:
-        text_input = uploaded_file.read().decode("utf-8")
-        st.text_area("Document Content", value=text_input, height=5000)
+    # Show iframe preview using base64 encoding
+    base64_pdf = base64.b64encode(uploaded_file.read()).decode("utf-8")
+    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="500" type="application/pdf"></iframe>'
+    st.markdown(pdf_display, unsafe_allow_html=True)
 
-# Analyze Button
-if st.button("Run Analysis"):
-    if text_input.strip() and (do_summary or do_clauses or do_entities):
-        with st.spinner("Running local LLM via Ollama..."):
-            # Call the backend API
+    # Extract text from PDF
+    uploaded_file.seek(0)  # Reset file pointer
+    reader = PyPDF2.PdfReader(uploaded_file)
+    for page in reader.pages:
+        extracted_text += page.extract_text() or ""
+
+# Manual text input (optional)
+text_input = st.text_area("Or paste legal text here:", height=200, placeholder="Enter legal content...")
+
+# Decide which input to use
+final_text = extracted_text.strip() if extracted_text else text_input.strip()
+
+# Analyze button
+if st.button("Analyze"):
+    if final_text:
+        with st.spinner("Analyzing document..."):
             try:
-                form_data = {
-                    "text": text_input,
-                    "summary": do_summary,
-                    "clauses": do_clauses,
-                    "entities": do_entities
-                }
-                response = requests.post(
-                    "http://localhost:8000/analyze/",
-                    data=form_data
-                )
+                response = requests.post("http://localhost:8000/analyze/", data={"text": final_text})
                 response.raise_for_status()
-                results = response.json().get("results", {})
-                st.success("Document processed successfully!")
-                
-                # Progress indicator
-                progress = 0
-                progress_bar = st.progress(progress)
-                
-                if do_summary and "Summary" in results:
-                    progress += 33
-                    st.markdown("### Summary")
-                    st.code(results["Summary"], language="markdown")
-                    progress_bar.progress(progress)
-                
-                if do_clauses and "Key Clauses" in results:
-                    progress += 33
-                    st.markdown("### Key Clauses")
-                    st.code(results["Key Clauses"], language="markdown")
-                    progress_bar.progress(progress)
-                
-                if do_entities and "Named Entities" in results:
-                    progress += 34
-                    st.markdown("### Named Entities")
-                    st.code(results["Named Entities"], language="markdown")
-                    progress_bar.progress(progress)
-            
-            except requests.RequestException as e:
-                st.error(f"Server error: {str(e)}")
+                results = response.json()
+
+                st.subheader("Summary")
+                with st.expander("View Summary"):
+                    st.write(results.get("summary", "No summary found."))
+
+                st.subheader("Key Clauses")
+                with st.expander("View Key Clauses"):
+                    st.write(results.get("clauses", "No key clauses detected."))
+
+                st.subheader("Named Entities")
+                with st.expander("View Named Entities"):
+                    st.write(results.get("entities", "No named entities found."))
+
+            except requests.exceptions.RequestException as e:
+                st.error(f"Error contacting backend: {e}")
     else:
-        st.warning("Please provide a legal document and select at least one extraction option.")
+        st.warning("⚠ Please upload a PDF or enter text before analyzing.")
 
 # Footer
 st.markdown("---")
-st.caption("IntelliDoc Legal Analyzer v2.0 | Powered by FastAPI + Streamlit _ Ollama LLaMA 2")
-st.markdown("© 2025 IntelliDoc. All rights reserved.")
+st.markdown("Built for legal insights using LLMs")
