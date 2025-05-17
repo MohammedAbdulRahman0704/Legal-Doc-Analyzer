@@ -1,63 +1,54 @@
-Sure! Here's the **updated `README.md`** including instructions to set up a **Python virtual environment (`venv`)** before running the backend and frontend:
-
----
-
 ```markdown
 # IntelliDoc Legal Analyzer API
 
-A powerful web application that uses **LLaMA2 (via FastAPI and Ollama)** to analyze legal documents (PDF or text).  
-Get **Summaries**, **Key Clauses**, and **Named Entities** extracted from your documents using **AI-powered NLP**.
+A powerful web application leveraging **LLaMA2** (via **FastAPI** and **Ollama**) to analyze legal documents (PDF or text).  
+Get **Summaries**, **Key Clauses**, and **Named Entities** extracted from your documents with **AI-powered NLP**.
 
 ---
 
-## 🚀 Features
+## Features
 
-- ✅ Upload and display PDF files directly in the browser
-- ✅ Extract and analyze legal content using LLaMA2
-- ✅ Text input alternative for non-PDF content
-- ✅ Categorized analysis: Summary, Key Clauses, Named Entities
-- ✅ Clean, collapsible UI with Streamlit
-- ✅ FastAPI backend with prompt engineering for legal context
+- ✅ Upload and display PDF files directly in your browser  
+- ✅ Extract and analyze legal content with LLaMA2 AI model  
+- ✅ Input legal text directly as an alternative to PDFs  
+- ✅ Categorized analysis: **Summary**, **Key Clauses**, **Named Entities**  
+- ✅ Clean, intuitive, and collapsible UI built with Streamlit  
+- ✅ Robust FastAPI backend with prompt engineering optimized for legal context  
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 
 legal-analyzer/
 ├── backend/
-│   └── main.py         # FastAPI backend with LLaMA2 prompts
+│   └── main.py         # FastAPI backend with LLaMA2 prompt logic
 ├── frontend/
-│   └── app.py          # Streamlit frontend for file upload and visualization
+│   └── app.py          # Streamlit frontend for file upload & visualization
 ├── requirements.txt
-├── README.md
+└── README.md
 
 ````
 
 ---
 
-## Requirements
+## Setup Instructions
 
-### Create and Activate Virtual Environment
-
-Before running the application, it's highly recommended to use a virtual environment:
+### 1. Create and Activate a Virtual Environment
 
 ```bash
-# Step 1: Create virtual environment
+# Create a virtual environment
 python -m venv venv
 
-# Step 2: Activate the environment
-# On Windows
+# Activate (Windows)
 venv\Scripts\activate
 
-# On macOS/Linux
+# Activate (macOS/Linux)
 source venv/bin/activate
 ````
 
-### 🧩 Install Required Packages
-
-After activation, install dependencies:
+### 2. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -71,33 +62,30 @@ pip install fastapi uvicorn requests streamlit PyPDF2
 
 ---
 
-## 🧠 LLaMA2 & Ollama Setup
+## LLaMA2 & Ollama Setup
 
-Ensure [Ollama](https://ollama.com) is installed and LLaMA2 is downloaded:
+Make sure [Ollama](https://ollama.com) is installed and the LLaMA2 model is downloaded:
 
 ```bash
-# Download and run LLaMA2 model
 ollama run llama2
 ```
 
 ---
 
-## ▶️ How to Run the Project
+## Running the Application
 
-### Step 1: Start the Backend Server
+### Step 1: Start Backend Server
 
 ```bash
 cd backend
 uvicorn main:app --reload
 ```
 
-⚠️ **Keep this terminal running** — it serves the LLaMA2-powered API.
+> **Keep this terminal running** — it serves the AI-powered API.
 
 ---
 
-### Step 2: Start the Frontend (New Terminal)
-
-Open a **new terminal** while the backend is still running:
+### Step 2: Start Frontend UI (In a New Terminal)
 
 ```bash
 cd frontend
@@ -106,12 +94,12 @@ streamlit run app.py
 
 ---
 
-### Step 3: Use the Application
+### Step 3: Use the App!
 
-* Upload a **PDF document** (displayed directly)
+* Upload a **PDF document** (preview it instantly)
 * Or paste **legal text**
 * Click **Analyze**
-* View categorized insights:
+* Explore the categorized AI insights:
 
   * 📄 Summary
   * 📌 Key Clauses
@@ -119,33 +107,33 @@ streamlit run app.py
 
 ---
 
-## 🧪 Example Screenshot
+## Example Screenshot
 
-*(You can add UI screenshots here for a better demo)*
-
----
-
-## 🔧 Customization
-
-* **Model Name**: Modify `"model": "llama2"` in `main.py`
-* **Prompts**: Customize in the `prompts` dictionary for different tasks
-* **UI**: Enhance layout or features via Streamlit components
+*(Add UI screenshots here to showcase the app in action)*
 
 ---
 
-## 🛠 Technologies Used
+## Customization Tips
 
-* [FastAPI](https://fastapi.tiangolo.com/)
-* [Streamlit](https://streamlit.io/)
-* [Ollama](https://ollama.com/)
-* [Meta LLaMA2](https://ai.meta.com/llama/)
-* [PyPDF2](https://pypi.org/project/PyPDF2/)
+* **Change Model**: Update `"model": "llama2"` in `backend/main.py`
+* **Modify Prompts**: Edit prompts in the `prompts` dictionary for tailored analysis
+* **Enhance UI**: Improve or extend features using Streamlit components in `frontend/app.py`
 
 ---
 
-## 📜 License
+## Technologies Used
 
-This project is for educational and research use only.
-AI-generated insights should be verified by qualified legal professionals.
+* [FastAPI](https://fastapi.tiangolo.com/) — backend API framework
+* [Streamlit](https://streamlit.io/) — interactive frontend UI
+* [Ollama](https://ollama.com/) — LLaMA2 model hosting and serving
+* [Meta LLaMA2](https://ai.meta.com/llama/) — foundational AI model
+* [PyPDF2](https://pypi.org/project/PyPDF2/) — PDF parsing
+
+---
+
+## License & Disclaimer
+
+This project is intended for **educational and research purposes only**.
+AI-generated legal insights should always be **verified by qualified legal professionals** before use.
 
 ---
