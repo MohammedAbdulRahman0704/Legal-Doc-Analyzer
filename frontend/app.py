@@ -37,3 +37,8 @@ st.markdown("""
             </style>
             """, unsafe_allow_html=True)
 
+# Header
+st.sidebar.title("IntelliDoc: Legal Analyzer")
+st.markdown("Levrage LLaMA2 locally to summarize, extract clauses and identify entities from legal or policy content.")
+
+# Section toggles
