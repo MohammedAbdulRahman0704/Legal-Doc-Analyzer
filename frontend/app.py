@@ -112,3 +112,6 @@ if st.button("Run Analysis"):
         st.warning("Please provide a legal document and select at least one extraction option.")
 
 # Footer
+st.markdown("---")
+st.caption("IntelliDoc Legal Analyzer v2.0 | Powered by FastAPI + Streamlit _ Ollama LLaMA 2")
+st.markdown("© 2023 IntelliDoc. All rights reserved.")
