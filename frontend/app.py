@@ -42,3 +42,11 @@ st.sidebar.title("IntelliDoc: Legal Analyzer")
 st.markdown("Levrage LLaMA2 locally to summarize, extract clauses and identify entities from legal or policy content.")
 
 # Section toggles
+st.subheader("Select Extraction Options")
+col1, col2, col3 = st.columns(3)
+with col1:
+    do_summary = st.checkbox("Summarize", value=True)
+with col2:
+    do_clauses = st.checkbox("Extract Key Clauses", value=True)
+with col3:
+    do_entities = st.checkbox("Identify Named Entities", value=True)
