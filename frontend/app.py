@@ -50,3 +50,17 @@ with col2:
     do_clauses = st.checkbox("Extract Key Clauses", value=True)
 with col3:
     do_entities = st.checkbox("Identify Named Entities", value=True)
+
+# Input selection
+st.subheader("Document Input")
+input_type = st.radio("Choose how you'd like to provide input:", ["Text Input", "Upload .txt File"])
+text_input = ""
+
+if input_type == "Text Input":
+    text_input = st.text_area("Paste your legal document content below:", height=5000)
+else:
+    uploaded_file = st.file_uploader("Upload a .txt file", type=["txt"])
+    if uploaded_file is not None:
+        text_input = uploaded_file.read().decode("utf-8")
+        st.text_area("Document Content", value=text_input, height=5000)
+
