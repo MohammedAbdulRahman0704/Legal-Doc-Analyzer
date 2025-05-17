@@ -64,3 +64,51 @@ else:
         text_input = uploaded_file.read().decode("utf-8")
         st.text_area("Document Content", value=text_input, height=5000)
 
+# Analyze Button
+if st.button("Run Analysis"):
+    if text_input.strip() and (do_summary or do_clauses or do_entities):
+        with st.spinner("Running local LLM via Ollama..."):
+            # Call the backend API
+            try:
+                form_data = {
+                    "text": text_input,
+                    "summary": do_summary,
+                    "clauses": do_clauses,
+                    "entities": do_entities
+                }
+                response = requests.post(
+                    "http://localhost:8000/analyze/",
+                    data=form_data
+                )
+                response.raise_for_status()
+                results = response.json().get("results", {})
+                st.success("Document processed successfully!")
+                
+                # Progress indicator
+                progress = 0
+                progress_bar = st.progress(progress)
+                
+                if do_summary and "Summary" in results:
+                    progress += 33
+                    st.markdown("### Summary")
+                    st.code(results["Summary"], language="markdown")
+                    progress_bar.progress(progress)
+                
+                if do_clauses and "Key Clauses" in results:
+                    progress += 33
+                    st.markdown("### Key Clauses")
+                    st.code(results["Key Clauses"], language="markdown")
+                    progress_bar.progress(progress)
+                
+                if do_entities and "Named Entities" in results:
+                    progress += 34
+                    st.markdown("### Named Entities")
+                    st.code(results["Named Entities"], language="markdown")
+                    progress_bar.progress(progress)
+            
+            except requests.RequestException as e:
+                st.error(f"Server error: {str(e)}")
+    else:
+        st.warning("Please provide a legal document and select at least one extraction option.")
+
+# Footer
