@@ -6,7 +6,7 @@ Get **Summaries**, **Key Clauses**, and **Named Entities** extracted from your d
 
 ---
 
-## 🚀 Features
+## Features
 
 - ✅ Upload and display PDF files directly in your browser  
 - ✅ Extract and analyze legal content with LLaMA2 AI model  
@@ -17,7 +17,7 @@ Get **Summaries**, **Key Clauses**, and **Named Entities** extracted from your d
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 
@@ -33,7 +33,7 @@ legal-analyzer/
 
 ---
 
-## ⚙️ Setup Instructions
+## Setup Instructions
 
 ### 1. Create and Activate a Virtual Environment
 
@@ -62,7 +62,7 @@ pip install fastapi uvicorn requests streamlit PyPDF2
 
 ---
 
-## 🧠 LLaMA2 & Ollama Setup
+## LLaMA2 & Ollama Setup
 
 Make sure [Ollama](https://ollama.com) is installed and the LLaMA2 model is downloaded:
 
@@ -72,7 +72,7 @@ ollama run llama2
 
 ---
 
-## ▶️ Running the Application
+## Running the Application
 
 ### Step 1: Start Backend Server
 
@@ -101,19 +101,19 @@ streamlit run app.py
 * Click **Analyze**
 * Explore the categorized AI insights:
 
-  * 📄 Summary
-  * 📌 Key Clauses
-  * 🔍 Named Entities
+  * Summary
+  * Key Clauses
+  * Named Entities
 
 ---
 
-## 🧪 Example Screenshot
+## Example Screenshot
 
 *(Add UI screenshots here to showcase the app in action)*
 
 ---
 
-## 🔧 Customization Tips
+## Customization Tips
 
 * **Change Model**: Update `"model": "llama2"` in `backend/main.py`
 * **Modify Prompts**: Edit prompts in the `prompts` dictionary for tailored analysis
@@ -121,7 +121,7 @@ streamlit run app.py
 
 ---
 
-## 🛠 Technologies Used
+## Technologies Used
 
 * [FastAPI](https://fastapi.tiangolo.com/) — backend API framework
 * [Streamlit](https://streamlit.io/) — interactive frontend UI
@@ -131,7 +131,7 @@ streamlit run app.py
 
 ---
 
-## 📜 License & Disclaimer
+## License & Disclaimer
 
 This project is intended for **educational and research purposes only**.
 AI-generated legal insights should always be **verified by qualified legal professionals** before use.
